@@ -9,7 +9,7 @@ const seedWorkouts = async () => {
     try {
         await Workout.deleteMany(); // dump existing workouts
 
-        const workouts = Array.from({ length: 10 }).map(() => ({
+        const workouts = Array.from({ length: 100 }).map(() => ({
             name: faker.lorem.word(),
             reps: faker.datatype.number({ min: 1, max: 20 }),
             sets: faker.datatype.number({ min: 1, max: 10 }),
