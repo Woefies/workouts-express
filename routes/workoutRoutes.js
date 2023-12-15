@@ -26,7 +26,7 @@ router.options('/workouts/:id?', (req, res) => {
     res.status(200).send();
 });
 
-
+//get workout collection
 router.get('/workouts', async (req, res) => {
     if (!req.accepts('json')) {
         res.status(406).send('Not Acceptable: Supported format is JSON');
@@ -71,7 +71,7 @@ router.get('/workouts', async (req, res) => {
 });
 
 
-// Route to get a specific workout by ID
+//  get a workout by ID
 router.get('/workouts/:id', async (req, res) => {
     try {
         const workout = await Workout.findById(req.params.id);
@@ -107,7 +107,7 @@ router.get('/workouts/:id', async (req, res) => {
 
 
 
-// Route to create a new workout
+// create a new workout
 router.post('/workouts',urlencodedParser, async (req, res) => {
     try {
         const newWorkout = new Workout(req.body);
@@ -131,11 +131,9 @@ router.post('/workouts',urlencodedParser, async (req, res) => {
 });
 
 
-// Route to update a workout by ID
+// update a workout by ID
 router.put('/workouts/:id', async (req, res) => {
     try {
-        console.log('Received PUT request:', req.body);
-
         // Update only if at least one field is filled
         const updatedWorkout = await Workout.findByIdAndUpdate(
             req.params.id,
@@ -143,13 +141,11 @@ router.put('/workouts/:id', async (req, res) => {
             { new: true, runValidators: true }
         );
 
-        console.log('Updated Workout:', updatedWorkout);
-
         if (!updatedWorkout) {
             return res.status(404).json({ error: 'Workout not found' });
         }
 
-        // Fetch the updated item
+        // get the updated item
         const item = await Workout.findOne({ _id: req.params.id });
         res.status(200).json(item);
     } catch (err) {
@@ -166,7 +162,7 @@ router.put('/workouts/:id', async (req, res) => {
 
 
 
-// Route to delete a workout by ID
+// delete a workout by ID
 router.delete('/workouts/:id', async (req, res) => {
     try {
         const deletedWorkout = await Workout.findByIdAndDelete(req.params.id);
